@@ -1,0 +1,6 @@
+POST http://localhost:8080/100/edit
+Content-Type: application/x-www-form-urlencoded
+
+id=100&name=Burger&price=100
+
+### <- граница запросов

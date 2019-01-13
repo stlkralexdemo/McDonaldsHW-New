@@ -25,8 +25,14 @@ public class ProductService {
     }
 
     public Product getByIdOrEmpty(int id) {
+//        if (id == 0) {
+//            return repository.getById(id)
+//                    .orElse(new Product());
+//        }
+//
+//        return getById(id);
         return repository.getById(id)
-                .orElse(new Product());
+                    .orElse(new Product());
     }
 
     public void save(Product item) {

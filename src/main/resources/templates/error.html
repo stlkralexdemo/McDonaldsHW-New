@@ -8,6 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-    Something bad happened! Are you trying to hack us?
+<h1>Something bad happened!</h1>
+<p data-th-if="${message}">
+    [[${message}]]
+</p>
 </body>
 </html>

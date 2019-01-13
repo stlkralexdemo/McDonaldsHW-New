@@ -23,12 +23,16 @@ public class ProductRepositoryJDBCImpl implements ProductRepository {
 
     @Override
     public List<Product> getAll() {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try {
             List<Product> products = new ArrayList<>();
 
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT id, name, price FROM products");
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT id, name, price FROM products");
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
@@ -44,6 +48,30 @@ public class ProductRepositoryJDBCImpl implements ProductRepository {
             // rethrow exception:
             // выкидываем non-checked exception + заворачивает старое
             throw new DbException(e);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

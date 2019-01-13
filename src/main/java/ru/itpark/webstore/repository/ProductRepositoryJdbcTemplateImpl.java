@@ -7,7 +7,7 @@ import ru.itpark.webstore.domain.Product;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class ProductRepositoryJdbcTemplateImpl implements ProductRepository {
     private final JdbcTemplate template;
 

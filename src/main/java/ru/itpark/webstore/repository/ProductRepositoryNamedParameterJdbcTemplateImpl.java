@@ -19,12 +19,13 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
     @Override
     public List<Product> getAll() {
         return template.query(
-                "SELECT id, name, price FROM products",
+                "SELECT id, name, price, imageUrl FROM products",
                 (rs, i) -> {
                     int id = rs.getInt("id");
                     String name = rs.getString("name");
                     int price = rs.getInt("price");
-                    return new Product(id, name, price);
+                    String imageUrl = rs.getString("imageUrl");
+                    return new Product(id, name, price,imageUrl);
                 }
         );
     }
@@ -32,13 +33,14 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
     @Override
     public Optional<Product> getById(int id) {
         return template.query(
-                "SELECT id, name, price FROM products WHERE id = :id LIMIT 1",
+                "SELECT id, name, price,imageUrl FROM products WHERE id = :id LIMIT 1",
                 Map.of("id", id),
                 (rs, i) -> new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getInt("price")
-                )
+                        rs.getInt("price"),
+                        rs.getString("imageUrl")
+                        )
         ).stream().findFirst();
     }
 
@@ -47,10 +49,11 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
         if (item.getId() == 0) {
             // INSERT
             template.update(
-                    "INSERT INTO products(name, price) VALUES (:name, :price)",
+                    "INSERT INTO products(name, price, imageUrl) VALUES (:name, :price, :imageUrl)",
                     Map.of(
                             "name", item.getName(),
-                            "price", item.getPrice()
+                            "price", item.getPrice(),
+                            "imageUrl", item.getImageUrl()
                     )
             );
             return;

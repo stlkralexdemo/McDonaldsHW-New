@@ -11,7 +11,7 @@
 
 <h1>[[${item.name}]]</h1>
 
-<p>[[${item.price}]]</p>
+<h2> [[${item.price}]] рублей</h2>
 <a><img data-th-src="@{{url}(url=${item.imageUrl})}"></a>
 <a data-th-href="@{/{id}/edit(id=${item.id})}">Edit</a>
 <a data-th-href="@{/{id}/remove(id=${item.id})}">Remove</a>

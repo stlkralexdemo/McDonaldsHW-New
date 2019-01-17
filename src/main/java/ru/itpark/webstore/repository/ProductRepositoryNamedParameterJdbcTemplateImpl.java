@@ -61,11 +61,12 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
 
         // UPDATE
         template.update(
-                "UPDATE products SET name = :name, price = :price WHERE id = :id",
+                "UPDATE products SET name = :name, price = :price, imageUrl = :imageUrl WHERE id = :id",
                 Map.of(
                         "id", item.getId(),
                         "name", item.getName(),
-                        "price", item.getPrice()
+                        "price", item.getPrice(),
+                        "imageUrl", item.getImageUrl()
                 )
         );
     }

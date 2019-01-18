@@ -42,4 +42,13 @@ public class ProductService {
     public void removeById(int id) {
         repository.removeById(id);
     }
+
+    public List<Product> getByName(String name) {
+        return repository.getByName(name);
+    }
+
+    public Product getByIdOrEmpty(String name) {
+        return repository.getByName(name).stream().findFirst()
+                .orElse(new Product());
+    }
 }

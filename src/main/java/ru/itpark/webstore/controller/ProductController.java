@@ -29,6 +29,19 @@ public class ProductController { // точка остановки будет с�
         return "view";
     }
 
+//    @PostMapping("/{id}/view")// path variable: id - будем доставать
+//    public String getByName(@PathVariable String name, Model model) { // @PathVariable - достаём то, что было в Path и кладём в параметр
+//        model.addAttribute("item", service.getByName(name));
+//
+//        return "view";
+//    }
+
+    @GetMapping("/search")
+    public String getAllByName(String name, Model model) {
+        model.addAttribute("items", service.getByName(name));
+        return "all";
+    }
+
     // -> /1/edit, /2/edit, /3000/edit
     @GetMapping("/{id}/edit") // <- value = "/edit"
     public String edit(@PathVariable int id, Model model) {

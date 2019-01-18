@@ -1,9 +1,12 @@
 package ru.itpark.webstore.repository;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.itpark.webstore.domain.Product;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +28,7 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
                     String name = rs.getString("name");
                     int price = rs.getInt("price");
                     String imageUrl = rs.getString("imageUrl");
-                    return new Product(id, name, price,imageUrl);
+                    return new Product(id, name, price, imageUrl);
                 }
         );
     }
@@ -40,8 +43,23 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
                         rs.getString("name"),
                         rs.getInt("price"),
                         rs.getString("imageUrl")
-                        )
+                )
         ).stream().findFirst();
+    }
+
+    @Override
+    public List<Product> getByName(String name) {
+        return template.query("SELECT id,name, price, imageUrl FROM products WHERE name like '%' || :name ||  '%'",
+                Map.of("name", name),
+                (rs, i) -> new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getString("imageUrl")
+                )
+        );
+
+
     }
 
     @Override
@@ -78,4 +96,6 @@ public class ProductRepositoryNamedParameterJdbcTemplateImpl implements ProductR
                 Map.of("id", id)
         );
     }
+
+
 }

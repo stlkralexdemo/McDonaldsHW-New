@@ -10,6 +10,8 @@ public interface ProductRepository {
 
     Optional<Product> getById(int id);
 
+    List<Product> getByName(String name);
+
     void save(Product item);
 
     void removeById(int id);
